@@ -3,6 +3,9 @@ from itertools import permutations
 from math import sqrt
 from operator import sub
 
+from src.graph_visualize import visualize
+
+
 def disstance(point1, point2):
     diff = tuple(map(sub, point1, point2))
     return sqrt(diff[0] * diff[0]+
@@ -34,21 +37,22 @@ def get_optimal_salesman_tour(depos, set_of_customers):
 
         return (optimal_depo, optimal_tour)
 
-depos = [(0,0,0),
+depos = [
          (5,5,0),
-         (0,5,0),
+    (0,0,0),
+         # (0,5,0),
          (5,0,0)
          ]
 
 customers = [(1,0,0),
-             (3,0,0),
-             (2,0,0),
-             (2,3,0),
-             (0,4,0),
-             (5,4,0),
+             (2,1.5,0),
+             # (2,0.5,0),
+             # (2,3,0),
+             # (0,4,0),
+             # (5,4,0),
              (4,4,0)]
 
-q = 3
+q = 2
 
 
 partitions = get_all_partitions(set(customers), q)
@@ -56,8 +60,6 @@ optimal_solution = []
 min_solution_len = float("inf")
 
 for partition in partitions:
-    if len([x  for x in partition if len(x) > q]) != 0:
-        print("!!!")
     solution = []
 
     for subset in partition:
@@ -72,3 +74,26 @@ for partition in partitions:
 
 for tour in optimal_solution:
     print(tour)
+
+#######################################
+
+
+customer_nodes = []
+for tour in optimal_solution:
+    for customer in tour[1]:
+        customer_nodes.append({"name": customer, "group": depos.index(tour[0]), "coords": customer})
+print(customer_nodes)
+
+depo_nodes = []
+for depo in depos:
+    depo_nodes.append({"name": depo, "group": depos.index(depo), "coords": depo})
+print(depo_nodes)
+
+edges = []
+for tour in optimal_solution:
+    edges.append({"source":tour[0], "target": tour[1][0]})
+    edges.append({"source":tour[1][-1], "target": tour[0]})
+    for i in range(len(tour[1]) - 1):
+        edges.append({"source": tour[1][i], "target": tour[1][i+1]})
+
+visualize(depo_nodes, customer_nodes, edges)
