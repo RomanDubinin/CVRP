@@ -6,6 +6,9 @@ def visualize(depo_nodes, customer_nodes, edges):
     customers_count = len(customer_nodes)
     depo_count = len(depo_nodes)
 
+
+    print(edges)
+
     customer_labels = []
     customer_group = []
     for node in customer_nodes:
@@ -37,11 +40,12 @@ def visualize(depo_nodes, customer_nodes, edges):
         ye += [e["source"][1], e["target"][1], None]
         ze += [e["source"][2], e["target"][2], None]
 
+    print(xe)
     trace1 = Scatter3d(x=xe,
                        y=ye,
                        z=ze,
                        mode='lines',
-                       line=Line(color='rgb(125,125,125)', width=1),
+                       line=Line(color='rgb(125,0,125)', width=5),
                        hoverinfo='text'
                        )
     trace2 = Scatter3d(x=customer_x,
@@ -73,6 +77,13 @@ def visualize(depo_nodes, customer_nodes, edges):
                        text=depo_labels,
                        hoverinfo='text'
                        )
+    axis = dict(showbackground=True,
+                showline=True,
+                zeroline=False,
+                showgrid=True,
+                showticklabels=True,
+                title=''
+                )
 
     layout = Layout(
         title="Network of ...",
@@ -80,12 +91,15 @@ def visualize(depo_nodes, customer_nodes, edges):
         height=800,
         showlegend=True,
         scene=Scene(
-
+            xaxis=XAxis(axis),
+            yaxis=YAxis(axis),
+            zaxis=ZAxis(axis),
         ),
         margin=Margin(
             t=100
         ),
         hovermode='closest')
+
 
     plotly.offline.plot({
         "data": [trace1, trace2, trace3],
