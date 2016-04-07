@@ -1,6 +1,95 @@
 import plotly
 from plotly.graph_objs import Scatter3d, Layout, Marker, Line, Scene, XAxis, YAxis, ZAxis, Margin, Annotation
 
+my_scale = ["#FF0000",
+            "#FF00CD",
+            "#9500FF",
+            "#3300FF",
+            "#0095FF",
+            "#00FFE6",
+            "#00FF11",
+            "#FFF700",
+            "#FF6F00",
+            "#66EBA8",
+            "#000000",
+            "#6994BF",]
+
+def experimental_antibug_visualize(depo_nodes, customer_nodes, edges):
+    traces = []
+    for i in range(len(depo_nodes)):
+        traces.append(Scatter3d(x=[depo_nodes[i]["coords"][0]],
+                                y=[depo_nodes[i]["coords"][1]],
+                                z=[depo_nodes[i]["coords"][2]],
+                                mode='markers',
+                                name='depos',
+                                marker=Marker(symbol='dot',
+                                              size=12,
+                                              color=my_scale[depo_nodes[i]["group"]],
+                                              line=Line(color='rgb(50,50,50)', width=0.5)
+                                              ),
+                                text=depo_nodes[i]["name"],
+                                hoverinfo='text'
+                           ))
+
+    for i in range(len(customer_nodes)):
+        traces.append(Scatter3d(x=[customer_nodes[i]["coords"][0]],
+                                y=[customer_nodes[i]["coords"][1]],
+                                z=[customer_nodes[i]["coords"][2]],
+                                mode='markers',
+                                name='customers',
+                                marker=Marker(symbol='dot',
+                                             size=6,
+                                             color=my_scale[customer_nodes[i]["group"]],
+                                             line=Line(color='rgb(50,50,50)', width=0.5)
+                                             ),
+                                text=customer_nodes[i]["name"],
+                                hoverinfo='text'
+                                ))
+
+    xe = []
+    ye = []
+    ze = []
+    for e in edges:
+        xe += [e["source"][0], e["target"][0], None]  # x-coordinates of edge ends
+        ye += [e["source"][1], e["target"][1], None]
+        ze += [e["source"][2], e["target"][2], None]
+
+    traces.append(Scatter3d(x=xe,
+                            y=ye,
+                            z=ze,
+                            mode='lines',
+                            line=Line(color='rgb(125,0,125)', width=5),
+                            hoverinfo='text'
+                            ))
+
+    axis = dict(showbackground=True,
+                showline=True,
+                zeroline=False,
+                showgrid=True,
+                showticklabels=True,
+                title=''
+                )
+
+    layout = Layout(
+        title="Network of ...",
+        width=1200,
+        height=800,
+        showlegend=False,
+        scene=Scene(
+            xaxis=XAxis(axis),
+            yaxis=YAxis(axis),
+            zaxis=ZAxis(axis),
+        ),
+        margin=Margin(
+            t=100
+        ),
+        hovermode='closest')
+
+    print(traces)
+    plotly.offline.plot({
+        "data": traces,
+        "layout": layout
+    })
 
 def visualize(depo_nodes, customer_nodes, edges):
     customers_count = len(customer_nodes)
@@ -55,7 +144,7 @@ def visualize(depo_nodes, customer_nodes, edges):
                        name='customers',
                        marker=Marker(symbol='dot',
                                      size=6,
-                                     color=customer_group,
+                                     color=[2,0],
                                      colorscale='Viridis',
                                      line=Line(color='rgb(50,50,50)', width=0.5)
                                      ),
@@ -70,7 +159,7 @@ def visualize(depo_nodes, customer_nodes, edges):
                        name='depos',
                        marker=Marker(symbol='dot',
                                      size=12,
-                                     color=depo_group,
+                                     color=[0,1,2],
                                      colorscale='Viridis',
                                      line=Line(color='rgb(50,50,50)', width=0.5)
                                      ),
