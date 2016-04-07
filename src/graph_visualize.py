@@ -85,7 +85,6 @@ def experimental_antibug_visualize(depo_nodes, customer_nodes, edges):
         ),
         hovermode='closest')
 
-    print(traces)
     plotly.offline.plot({
         "data": traces,
         "layout": layout
@@ -110,9 +109,6 @@ def visualize(depo_nodes, customer_nodes, edges):
         depo_labels.append(node['name'])
         depo_group.append(node['group'])
 
-    print(depo_group)
-    print(customer_group)
-
     customer_x = [customer_nodes[k]["coords"][0] for k in range(customers_count)]  # x-coordinates of nodes
     customer_y = [customer_nodes[k]["coords"][1] for k in range(customers_count)]  # y-coordinates
     customer_z = [customer_nodes[k]["coords"][2] for k in range(customers_count)]  # z-coordinates
@@ -129,7 +125,6 @@ def visualize(depo_nodes, customer_nodes, edges):
         ye += [e["source"][1], e["target"][1], None]
         ze += [e["source"][2], e["target"][2], None]
 
-    print(xe)
     trace1 = Scatter3d(x=xe,
                        y=ye,
                        z=ze,

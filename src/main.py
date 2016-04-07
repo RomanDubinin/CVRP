@@ -82,12 +82,10 @@ customer_nodes = []
 for tour in optimal_solution:
     for customer in tour[1]:
         customer_nodes.append({"name": str(customer), "group": depos.index(tour[0]), "coords": customer})
-print(customer_nodes)
 
 depo_nodes = []
 for depo in depos:
     depo_nodes.append({"name": str(depo), "group": depos.index(depo), "coords": depo})
-print(depo_nodes)
 
 edges = []
 for tour in optimal_solution:
