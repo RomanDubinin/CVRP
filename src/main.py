@@ -1,3 +1,4 @@
+from src.common import disstance
 from src.full_search import get_all_partitions
 from itertools import permutations
 from math import sqrt
@@ -5,13 +6,6 @@ from operator import sub
 import math
 
 from src.graph_visualize import visualize, experimental_antibug_visualize
-
-
-def disstance(point1, point2):
-    diff = tuple(map(sub, point1, point2))
-    return sqrt(diff[0] * diff[0]+
-                diff[1] * diff[1]+
-                diff[2] * diff[2])
 
 def get_tour_len(depo, customers):
     sum_ = 0
