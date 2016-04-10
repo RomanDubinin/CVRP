@@ -1,4 +1,4 @@
-from src.common import disstance
+from src.common import disstance, get_tour_len
 from src.full_search import get_all_partitions
 from itertools import permutations
 from math import sqrt
@@ -7,15 +7,6 @@ import math
 from src.graph_visualize import visualize, experimental_antibug_visualize
 from src.inside_customers_heuristics import hamiltonian_cycle_cheapest_insertion
 
-
-def get_tour_len(depo, customers):
-    sum_ = 0
-    for i in range(len(customers)-1):
-        sum_ += disstance(customers[i], customers[i+1])
-
-    sum_ = sum_ + disstance(depo, customers[0]) + disstance(customers[-1], depo)
-
-    return sum_
 
 
 def get_optimal_salesman_tour(depos, set_of_customers):
@@ -107,6 +98,3 @@ def main():
 
 
 # main()
-p = [(0,0,0), (10,10,0), (7,5,0), (4,1,0)]
-h = hamiltonian_cycle_cheapest_insertion(p)
-print(h)
