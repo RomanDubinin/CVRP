@@ -2,10 +2,11 @@ from src.common import disstance
 from src.full_search import get_all_partitions
 from itertools import permutations
 from math import sqrt
-from operator import sub
 import math
 
 from src.graph_visualize import visualize, experimental_antibug_visualize
+from src.inside_customers_heuristics import hamiltonian_cycle_cheapest_insertion
+
 
 def get_tour_len(depo, customers):
     sum_ = 0
@@ -105,6 +106,7 @@ def main():
     experimental_antibug_visualize(depo_nodes, customer_nodes, edges)
 
 
-main()
-
-print(count_k(5, 10, 10))
+# main()
+p = [(0,0,0), (10,10,0), (7,5,0), (4,1,0)]
+h = hamiltonian_cycle_cheapest_insertion(p)
+print(h)
